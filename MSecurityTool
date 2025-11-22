@@ -1,0 +1,1601 @@
+""" MSecurity - Multi Security Tool
+Developed by bl3ss902
+Version 1.0
+Github: https://github.com/MsecurityProjects
+Discord Username: bl3ss902   """
+
+import requests
+import base64
+import json
+import time
+import os
+import sys
+import geoip2.database
+import whois
+from colorama import init, Fore, Style
+import threading
+from datetime import datetime
+import socket
+import ssl
+from datetime import datetime
+import hashlib
+import random
+import urllib.parse
+import ipaddress
+import zipper
+from ipwhois import IPWhois
+import socket
+import threading
+import sys
+from datetime import datetime
+from datetime import timezone
+
+
+init(autoreset=True)
+
+def colored_gradient(text, line_num, total_lines, offset=0):
+    ratio = ((line_num + offset) % (total_lines * 2)) / (total_lines * 2)
+    
+   
+    r = int(85 + 0 * ratio)        
+    g = int(85 + (127 * ratio))  
+    b = int(85)                  
+    
+    return f"\033[38;2;{r};{g};{b}m{text}\033[0m"
+
+def gradient_text(text, offset=0):
+    lines = text.split("\n")
+    total_lines = len(lines)
+    result = []
+    
+    for i, line in enumerate(lines):
+        result.append(colored_gradient(line, i + offset, total_lines, offset))
+    
+    return "\n".join(result)
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def animate_banner(banner, duration=2):
+    frames = 20
+    for frame in range(frames):
+        sys.stdout.write("\033[H")  
+        offset = frame * 2
+        print(gradient_text(banner, offset))
+        sys.stdout.flush()
+        time.sleep(duration / frames)
+
+def print_title():
+    clear_screen()
+    title = """
+ ███▄ ▄███▓  ██████ ▓█████  ▄████▄   █    ██  ██▀███   ██▓▄▄▄█████▓▓██   ██▓   ▄▄▄█████▓ ▒█████   ▒█████   ██▓    
+▓██▒▀█▀ ██▒▒██    ▒ ▓█   ▀ ▒██▀ ▀█   ██  ▓██▒▓██ ▒ ██▒▓██▒▓  ██▒ ▓▒ ▒██  ██▒   ▓  ██▒ ▓▒▒██▒  ██▒▒██▒  ██▒▓██▒    
+▓██    ▓██░░ ▓██▄   ▒███   ▒▓█    ▄ ▓██  ▒██░▓██ ░▄█ ▒▒██▒▒ ▓██░ ▒░  ▒██ ██░   ▒ ▓██░ ▒░▒██░  ██▒▒██░  ██▒▒██░    
+▒██    ▒██   ▒   ██▒▒▓█  ▄ ▒▓▓▄ ▄██▒▓▓█  ░██░▒██▀▀█▄  ░██░░ ▓██▓ ░   ░ ▐██▓░   ░ ▓██▓ ░ ▒██   ██░▒██   ██░▒██░    
+▒██▒   ░██▒▒██████▒▒░▒████▒▒ ▓███▀ ░▒▒█████▓ ░██▓ ▒██▒░██░  ▒██▒ ░   ░ ██▒▓░     ▒██▒ ░ ░ ████▓▒░ ░ ████▓▒░░██████▒
+░ ▒░   ░  ░▒ ▒▓▒ ▒ ░░░ ▒░ ░░ ░▒ ▒  ░░▒▓▒ ▒ ▒ ░ ▒▓ ░▒▓░░▓    ▒ ░░      ██▒▒▒      ▒ ░░   ░ ▒░▒░▒░ ░ ▒░▒░▒░ ░ ▒░▓  ░
+░  ░      ░░ ░▒  ░ ░ ░ ░  ░  ░  ▒   ░░▒░ ░ ░   ░▒ ░ ▒░ ▒ ░    ░     ▓██ ░▒░        ░      ░ ▒ ▒░   ░ ▒ ▒░ ░ ░ ▒  ░
+░      ░   ░  ░  ░     ░   ░         ░░░ ░ ░   ░░   ░  ▒ ░  ░       ▒ ▒ ░░       ░      ░ ░ ░ ▒  ░ ░ ░ ▒    ░ ░   
+       ░         ░     ░  ░░ ░         ░        ░      ░            ░ ░                     ░ ░      ░ ░      ░  ░
+                           ░                                        ░ ░                                              
+
+--==------------------MSecurity - Multi Security Tool------------------==--
+--==------------------Developed by bl3ss902------------------==--
+--==--------------------Version 1.0------------------==--
+--==--------------------Github: https://github.com/MsecurityProjects------------------==--
+--==--------------------Discord Username: bl3ss902------------------==--
+--==--------------------Invite Discord Bot > https://msecuritybotgod.netlify.app""" 
+    
+    animate_banner(title)
+
+   
+    print(colored_gradient("|=====================================================================================================|", 1, 30, 0))
+    print(colored_gradient("|----------------------------------------MAIN MENU - MSecurity----------------------------------------|", 2, 30, 0))
+    
+    total_inner = 99
+    left_title = "GENERAL MODULES"
+    right_title = "UTILITY MODULES"
+    left_sub = "General Options"
+    right_sub = "Utility Options"
+
+    top_border = "|" + "=" * total_inner + "|"
+    sep_border = "|" + "-" * total_inner + "|"
+
+    
+    print(colored_gradient(top_border, 3, 30, 0))
+
+    
+    left_part = f"|{left_title:^48}"
+    right_part = f"{right_title:^48}|"
+    print(colored_gradient(left_part, 4, 30, 0) + colored_gradient(" | ", 4, 30, 0) + colored_gradient(right_part, 4, 30, 12))
+
+
+    left_sub_part = f"|{left_sub:^48}"
+    right_sub_part = f"{right_sub:^48}|"
+    print(colored_gradient(left_sub_part, 5, 30, 0) + colored_gradient(" | ", 5, 30, 0) + colored_gradient(right_sub_part, 5, 30, 12))
+
+    print(colored_gradient(sep_border, 6, 30, 0))
+
+    
+    left_items = [
+        "0.  Exit/Leave",
+        "1.  IPLookup",
+        "2.  Geolocation IP Address",
+        "3.  Base64 Encode / Decode",
+        "4.  Hash Generator",
+        "5.  IP Port Scanner",
+    ]
+    right_items = [
+        "6.  Whois Lookup Tool",
+        "7.  Website Vulnerability Scanner",
+        "8.  Website Info Scanner",
+        "9.  Website URL Scanner",
+        "10. IP Generator",
+    ]
+    
+    discord_items = [
+        "---------- DISCORD MODULES ----------",
+        "11. Discord Token Info",
+        "12. Discord Server Info",
+        "13. Discord Userinfo",
+        "14. Discord Webhook Raider",
+        "15. Discord Webhook Delete",
+    ]
+    right_items.extend(discord_items)
+    max_rows = max(len(left_items), len(right_items))
+    start_line_num = 7
+    for i in range(max_rows):
+        left = left_items[i] if i < len(left_items) else ""
+        right = right_items[i] if i < len(right_items) else ""
+        
+        left_colored = colored_gradient(f"|{left:<48}", start_line_num + i, 30, 0)
+        sep_colored = colored_gradient(" | ", start_line_num + i, 30, 0)
+        right_colored = colored_gradient(f"{right:<48}|", start_line_num + i, 30, 14)
+        print(left_colored + sep_colored + right_colored)
+
+    
+    print(colored_gradient(top_border, start_line_num + max_rows, 20, 0))
+
+    
+    print("\033[32m┌─[root]─[M-Security]\033[0m")
+    choice = input("\033[32m└──╼ # [?] : Select your option (0-15) \033[0m").strip()
+    return choice
+
+
+def main():
+    while True:
+        choice = print_title()
+
+        if choice == '1':
+            ip_info()
+
+        elif choice == '2':
+            geolocate_ip_menu()
+        elif choice == '3':
+            base64_menu()
+
+        elif choice == '4': 
+            hash_menu()
+    
+        elif choice == '5':
+            ip_port_scanner()
+            
+        elif choice == '6':
+            whois_lookup_menu()
+
+        elif choice == '7':
+            Website_Vulnerability_Scanner()
+        
+        elif choice == '8':
+            Website_Info_Scanner()
+        
+        elif choice == '9':
+            Website_URL_Scanner()
+
+        elif choice == '10':
+            ip_generator()
+
+        elif choice == '11':
+            discord_token_info()
+
+        elif choice == '12':
+            discord_server_info()
+
+        elif choice == '13':
+            discord_user_info()
+
+        elif choice == '14':
+            discord_webhook_spam()
+
+        elif choice == '15':
+            webhook_deleter()
+
+        elif choice == '0':
+            
+            print(colored_gradient("\nExiting...", 0, 1, 0))
+            break
+
+        print(colored_gradient("\nPress Enter to continue...", 0, 1, 0))
+        input()
+
+
+def ip_info():
+    ip = input(colored_gradient("Enter the IP address to lookup: ", 0, 1, 0)).strip()
+    url = f"https://ipinfo.io/{ip}/json" if ip else "https://ipinfo.io/json"
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+
+        ip_addr = data.get("ip", ip or "unknown")
+        city = data.get("city")
+        region = data.get("region")
+        country = data.get("country")
+        org = data.get("org")
+        loc = data.get("loc")
+        timezone = data.get("timezone")
+        postal = data.get("postal")
+
+        print(colored_gradient(f"\nResults for IP {ip_addr}:", 0, 10, 0))
+
+        if city or region or country:
+            parts = [p for p in (city, region, country) if p]
+            print(colored_gradient(f"- [MSecurity] 🌍Location: {', '.join(parts)}", 1, 10, 0))
+        else:
+            print(colored_gradient("- [MSecurity] 📍Location: Unknown", 1, 10, 0))
+
+        if org:
+            print(colored_gradient(f"- [MSecurity] 💻Organization/ISP: {org}", 2, 10, 0))
+        
+        if loc:
+            lat, lon = loc.split(",") if "," in loc else (loc, "")
+            print(colored_gradient(f"- [MSecurity] 📍Coordinates: lat {lat} lon {lon}", 3, 10, 0))
+        
+        if timezone:
+            print(colored_gradient(f"- [MSecurity] ⏰Timezone: {timezone}", 4, 10, 0))
+        
+        if postal:
+            print(colored_gradient(f"- [MSecurity] 🔢Postal Code: {postal}", 5, 10, 0))
+
+    except requests.RequestException as e:
+        print(colored_gradient(f"Error connecting to service: {e}", 0, 1, 0))
+    except Exception as e:
+        print(colored_gradient(f"Unexpected error: {e}", 0, 1, 0))
+
+
+def geolocate_ip(ip: str) -> dict:
+    try:
+        
+        ipaddress.ip_address(ip)
+
+        
+        data = IPWhois(ip).lookup_rdap(depth=1)
+
+        
+        def get(v, default="N/A"):
+            return v if v not in [None, "", []] else default
+
+        result = {
+            "[MSecurity Information for]": ip,
+            "[MSecurity 🌍 Country]": get(data.get("network", {}).get("country")),
+            "[MSecurity 🧩 CIDR]": get(data.get("network", {}).get("cidr")),
+            "[MSecurity 🏛️ Registry]": get(data.get("asn_registry")),
+            "[MSecurity 📡 ASN]": get(data.get("asn")),
+            "[MSecurity 🧭 ASN Country]": get(data.get("asn_country_code")),
+            "[MSecurity 🔎 ASN Description]": get(data.get("asn_description")),
+            "[MSecurity 👥 Network Name]": get(data.get("network", {}).get("name")),
+            "[MSecurity 🧵 Network Type]": get(data.get("network", {}).get("type")),
+        }
+
+        return result
+
+    except Exception as e:
+        
+        return {
+            "error": f"No fue posible consultar la IP ({e})",
+            "ip": ip
+        }
+
+
+def geolocate_ip_menu():
+    print(colored_gradient("\n--- MSecurity Geolocation IP ---", 0, 10, 0))
+
+    ip = input(colored_gradient("Enter the IP address to look up: ", 0, 10, 0)).strip()
+
+    if not ip:
+        print(colored_gradient("\nError: You must enter an IP address.", 10, 0, 0))
+        return
+
+    
+    try:
+        ipaddress.ip_address(ip)
+    except ValueError:
+        print(colored_gradient(f"\nError: '{ip}' is not a valid IP address.", 10, 0, 0))
+        return
+
+    print(colored_gradient("\nQuerying WHOIS... Please wait.", 10, 10, 0))
+
+    result = geolocate_ip(ip)
+
+    if "error" in result:
+        print(colored_gradient(f"\nError: {result['error']}", 10, 0, 0))
+        return
+
+    print(colored_gradient("\n--- WHOIS results ---", 0, 10, 0))
+    for key, value in result.items():
+        value = value if value not in [None, ""] else "N/A"
+        print(colored_gradient(f"- {key}: {value}", 0, 10, 0))
+
+    print(colored_gradient("--------------------------\n", 0, 10, 0))
+
+def base64_menu():
+    print(colored_gradient("\nBase64 Encode/Decode", 0, 10, 0))
+    print(colored_gradient("1. Encode", 1, 10, 0))
+    print(colored_gradient("2. Decode", 2, 10, 0))
+    opt = input(colored_gradient("Select (1-2): ", 3, 10, 0)).strip()
+    if opt == '1':
+        text = input(colored_gradient("Text to encode: ", 4, 10, 0))
+        try:
+            encoded = base64.b64encode(text.encode('utf-8')).decode('utf-8')
+            print(colored_gradient(f"Result (Base64): {encoded}", 5, 10, 0))
+        except Exception as e:
+            print(colored_gradient(f"Error encoding: {e}", 6, 10, 0))
+    elif opt == '2':
+        text = input(colored_gradient("Base64 text to decode: ", 4, 10, 0)).strip()
+        try:
+            pad = len(text) % 4
+            if pad:
+                text += "=" * (4 - pad)
+            decoded = base64.b64decode(text).decode('utf-8')
+            print(colored_gradient(f"Result (decoded): {decoded}", 5, 10, 0))
+        except Exception as e:
+            print(colored_gradient(f"Error decoding: {e}", 6, 10, 0))
+    else:
+        print(colored_gradient("Invalid option.", 7, 10, 0))
+
+def hash_menu():
+    print(colored_gradient("\nHash Generator (MD5, SHA1, SHA256)", 0, 5, 0))
+    text = input(colored_gradient("Text to hash: ", 1, 5, 0)).encode('utf-8')
+    try:
+        print(colored_gradient(f"MD5:    {hashlib.md5(text).hexdigest()}", 2, 5, 0))
+        print(colored_gradient(f"SHA1:   {hashlib.sha1(text).hexdigest()}", 3, 5, 0))
+        print(colored_gradient(f"SHA256: {hashlib.sha256(text).hexdigest()}", 4, 5, 0))
+    except Exception as e:
+        print(colored_gradient(f"Error generating hashes: {e}", 5, 5, 0))
+
+
+def scan_port(ip, port, open_ports):
+    try:
+        
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.settimeout(1)  
+            result = sock.connect_ex((ip, port))
+            if result == 0:
+                
+                with print_lock:
+                    print(f"- Port {port} is OPEN")
+                open_ports.append(port)
+    except socket.gaierror:
+        print(f" Error: Hostname '{ip}' could not be resolved.")
+        sys.exit(1)
+    except Exception as e:
+        
+        pass
+
+
+def ip_port_scanner():
+    
+    global print_lock
+    print_lock = threading.Lock()
+
+    target = input("Enter the IP address or hostname to scan: ").strip()
+    if not target:
+        print(" No target specified.")
+        return
+
+    try:
+
+        ip = socket.gethostbyname(target)
+    except socket.gaierror:
+        print(f" Error: Hostname '{target}' could not be resolved.")
+        return
+
+    try:
+        start_port_str = input("Start port (default 1): ").strip()
+        end_port_str = input("End port (default 1024): ").strip()
+        
+        start_port = int(start_port_str) if start_port_str else 1
+        end_port = int(end_port_str) if end_port_str else 1024
+    except ValueError:
+        print(" Ports must be integer values.")
+        return
+    
+    if not (1 <= start_port <= 65535) or not (1 <= end_port <= 65535):
+        print(" Ports must be in the range 1-65535.")
+        return
+        
+    if start_port > end_port:
+        print(" Start port cannot be greater than end port.")
+        return
+
+    print("-" * 50)
+    print(f"Scanning target: {ip}")
+    print(f"Scanning started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("-" * 50)
+
+    open_ports = []
+    threads = []
+    
+
+    for port in range(start_port, end_port + 1):
+        thread = threading.Thread(target=scan_port, args=(ip, port, open_ports))
+        threads.append(thread)
+        thread.start()
+
+
+    for thread in threads:
+        thread.join()
+
+    print("-" * 50)
+    print(f"Scanning finished at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    
+    if open_ports:
+        print(f"Open ports found: {', '.join(map(str, sorted(open_ports)))}")
+    else:
+        print("No open ports found in the specified range.")
+    print("-" * 50)
+
+
+
+def whois_lookup_menu():
+    domain = input(colored_gradient("Enter the domain to lookup: ", 0, 1, 0)).strip()
+    if not domain:
+        print(colored_gradient("You must enter a domain.", 0, 1, 0))
+        return
+    
+    result = whois_lookup(domain)
+    if "error" in result:
+        print(colored_gradient(f"Error: {result['error']}", 0, 1, 0))
+    else:
+        print(colored_gradient("\nWHOIS Information:", 0, 10, 0))
+        for key, value in result.items():
+            if value:
+                print(colored_gradient(f"- {key}: {value}", 1, 10, 0))
+
+def normalize(value):
+    if isinstance(value, list):
+        value = next((v for v in value if v), None)
+
+    if isinstance(value, datetime):
+        return value.isoformat()
+
+    return value
+
+def whois_lookup(domain: str) -> dict:
+    try:
+        w = whois.whois(domain)
+
+        result = {
+            "domain_name": normalize(w.domain_name),
+            "registrar": normalize(w.registrar),
+            "whois_server": normalize(w.whois_server),
+            "creation_date": normalize(w.creation_date),
+            "expiration_date": normalize(w.expiration_date),
+            "updated_date": normalize(w.updated_date),
+            "status": normalize(w.status),
+            "emails": normalize(w.emails),
+            "name_servers": normalize(w.name_servers),
+            "dnssec": normalize(w.dnssec)
+        }
+
+        return result
+
+    except Exception as e:
+        return {"error": str(e)}
+
+def Website_Vulnerability_Scanner():
+    target = input(colored_gradient("\nEnter the URL to scan (e.g., https://example.com): ", 0, 1, 0)).strip()
+    if not target:
+        print(colored_gradient("URL not provided.", 0, 1, 0))
+        return
+
+    if not target.startswith("http://") and not target.startswith("https://"):
+        target = "http://" + target
+
+    print(colored_gradient(f"\n[MSecurity] Scanning {target} ...", 0, 1, 0))
+
+    try:
+        resp = requests.get(target, timeout=10, allow_redirects=True)
+    except requests.RequestException as e:
+        print(colored_gradient(f"Error requesting URL: {e}", 0, 1, 0))
+        return
+
+
+    print(colored_gradient(f"Status Code: {resp.status_code}", 1, 6, 0))
+    print(colored_gradient(f"Final URL: {resp.url}", 2, 6, 0))
+
+
+    headers = resp.headers
+    server = headers.get("Server", "<no server header>")
+    xpowered = headers.get("X-Powered-By", "<none>")
+    print(colored_gradient(f"Server header: {server}", 3, 8, 0))
+    print(colored_gradient(f"X-Powered-By: {xpowered}", 4, 8, 0))
+
+
+    security_headers = [
+        "Content-Security-Policy",
+        "X-Frame-Options",
+        "X-Content-Type-Options",
+        "Strict-Transport-Security",
+        "Referrer-Policy",
+        "Permissions-Policy",
+    ]
+    missing = []
+    print(colored_gradient("\nSecurity headers:", 5, 12, 0))
+    for i, h in enumerate(security_headers, start=6):
+        val = headers.get(h)
+        if val:
+            print(colored_gradient(f"- {h}: {val}", i, 12, 0))
+        else:
+            print(colored_gradient(f"- {h}: MISSING", i, 12, 0))
+            missing.append(h)
+
+
+    if resp.cookies:
+        print(colored_gradient("\nCookies detected (name=value) and attributes:", 0, 12, 0))
+        for i, cookie in enumerate(resp.cookies, start=1):
+            attrs = []
+
+            set_cookie_headers = headers.get("Set-Cookie", "")
+            
+            flag_secure = ("; secure" in set_cookie_headers.lower())
+            flag_httponly = ("httponly" in set_cookie_headers.lower())
+            attrs.append("Secure" if flag_secure else "no-Secure")
+            attrs.append("HttpOnly" if flag_httponly else "no-HttpOnly")
+            print(colored_gradient(f"- {cookie.name}={cookie.value} ({', '.join(attrs)})", i, 12, 0))
+    else:
+        print(colored_gradient("\nNo cookies detected.", 0, 12, 0))
+
+   
+    parsed = urllib.parse.urlparse(resp.url)
+    base = f"{parsed.scheme}://{parsed.netloc}"
+    try:
+        r_robots = requests.get(base + "/robots.txt", timeout=6)
+        if r_robots.status_code == 200 and r_robots.text.strip():
+            print(colored_gradient("\nrobots.txt available:", 0, 8, 0))
+            print(colored_gradient(r_robots.text.strip()[:1000], 1, 8, 0))
+        else:
+            print(colored_gradient("\nrobots.txt not available or empty.", 0, 8, 0))
+    except requests.RequestException:
+        print(colored_gradient("\nCould not fetch robots.txt", 0, 8, 0))
+
+    try:
+        r_smap = requests.get(base + "/sitemap.xml", timeout=6)
+        if r_smap.status_code == 200 and "xml" in r_smap.headers.get("Content-Type", "").lower():
+            print(colored_gradient("\nsitemap.xml available.", 0, 8, 0))
+        else:
+            print(colored_gradient("\nsitemap.xml not available.", 0, 8, 0))
+    except requests.RequestException:
+        print(colored_gradient("\nCould not fetch sitemap.xml", 0, 8, 0))
+
+   
+    common_paths = [
+        "/.git/config",
+        "/.env",
+        "/wp-config.php",
+        "/backup.zip",
+        "/.htaccess",
+        "/admin/config.php",
+        "/config.php",
+        "/.DS_Store",
+    ]
+    found = []
+    print(colored_gradient("\nChecking common sensitive files:", 0, 12, 0))
+    for i, p in enumerate(common_paths, start=1):
+        try:
+            rr = requests.get(base + p, timeout=5, allow_redirects=True)
+            if rr.status_code == 200 and len(rr.text) > 0:
+
+                sig = rr.text.lower()
+                if any(s in sig for s in ["db_", "dbname", "wordpress", "wp-config", "dump", "git", "private", "dotenv"]):
+                    print(colored_gradient(f"- {p} --> POSSIBLE EXPOSURE (200 + suspicious content)", i, 12, 0))
+                    found.append(p)
+                else:
+
+                    print(colored_gradient(f"- {p} --> 200 OK (content length {len(rr.text)})", i, 12, 0))
+                    found.append(p)
+            else:
+                print(colored_gradient(f"- {p} --> {rr.status_code}", i, 12, 0))
+        except requests.RequestException:
+            print(colored_gradient(f"- {p} --> request error", i, 12, 0))
+
+
+    listing_paths = ["/", "/uploads/", "/files/"]
+    print(colored_gradient("\nChecking directory listings:", 0, 8, 0))
+    for i, p in enumerate(listing_paths, start=1):
+        try:
+            rr = requests.get(base + p, timeout=6)
+            if rr.status_code == 200 and ("index of /" in rr.text.lower() or "<title>index of" in rr.text.lower()):
+                print(colored_gradient(f"- {p} --> DIRECTORY LISTING POSSIBLE", i, 8, 0))
+            else:
+                print(colored_gradient(f"- {p} --> OK / no listing detected", i, 8, 0))
+        except requests.RequestException:
+            print(colored_gradient(f"- {p} --> request error", i, 8, 0))
+
+    body = resp.text.lower()
+    cms = "Unknown"
+    if "wp-content" in body or "wordpress" in body:
+        cms = "WordPress"
+    elif "joomla" in body:
+        cms = "Joomla"
+    elif "drupal" in body:
+        cms = "Drupal"
+    elif "magento" in body:
+        cms = "Magento"
+    elif "shopify" in body:
+        cms = "Shopify"
+    elif "prestashop" in body:
+        cms = "PrestaShop"
+    elif "opencart" in body:
+        cms = "OpenCart"
+    elif "wix" in body:
+        cms = "Wix"
+    elif "squarespace" in body:
+        cms = "Squarespace"
+    elif "ghost" in body:
+        cms = "Ghost"
+    elif "hubspot" in body:
+        cms = "HubSpot"
+    elif "craft cms" in body:
+        cms = "Craft CMS"
+    elif "statamic" in body:
+        cms = "Statamic"
+    elif "contentful" in body:
+        cms = "Contentful"
+    elif "strapi" in body:
+        cms = "Strapi"
+    elif "keystonejs" in body:
+        cms = "KeystoneJS"
+    elif "sanity" in body:
+        cms = "Sanity"
+    elif "cosmicjs" in body:
+        cms = "CosmicJS"
+    elif "netlify cms" in body:
+        cms = "Netlify CMS"
+    elif "forestry" in body:
+        cms = "Forestry"
+    elif "tinacms" in body:
+        cms = "TinaCMS"
+    elif "payload cms" in body:
+        cms = "Payload CMS"
+    elif "directus" in body:
+        cms = "Directus"
+    elif "appwrite" in body:
+        cms = "Appwrite"
+    elif "supabase" in body:
+        cms = "Supabase"
+    elif "firebase" in body:
+        cms = "Firebase"
+    elif "aws" in body or "amazon" in body:
+        cms = "AWS (Amazon Web Services)"
+    elif "google cloud" in body or "gcp" in body:
+        cms = "Google Cloud Platform"
+    elif "microsoft azure" in body or "azure" in body:
+        cms = "Microsoft Azure"
+    elif "digitalocean" in body:
+        cms = "DigitalOcean"
+    elif "heroku" in body:
+        cms = "Heroku"
+    elif "vercel" in body:
+        cms = "Vercel"
+    elif "netlify" in body:
+        cms = "Netlify"
+    elif "cloudflare" in body:
+        cms = "Cloudflare"
+    elif "fastly" in body:
+        cms = "Fastly"
+    elif "akamai" in body:
+        cms = "Akamai"
+    elif "limelight" in body:
+        cms = "Limelight"
+    elif "keycdn" in body:
+        cms = "KeyCDN"
+    elif "maxcdn" in body or "stackpath" in body:
+        cms = "MaxCDN (StackPath)"
+    elif "cdn77" in body:
+        cms = "CDN77"
+    elif "rackspace" in body:
+        cms = "Rackspace"
+    elif "linode" in body:
+        cms = "Linode"
+    elif "vultr" in body:
+        cms = "Vultr"
+    elif "scaleway" in body:
+        cms = "Scaleway"
+    elif "ovh" in body:
+        cms = "OVH"
+    elif "hetzner" in body:
+        cms = "Hetzner"
+    elif "upcloud" in body:
+        cms = "UpCloud"
+    elif "ibm cloud" in body:
+        cms = "IBM Cloud"
+    elif "oracle cloud" in body:
+        cms = "Oracle Cloud"
+    elif "alibaba cloud" in body:
+        cms = "Alibaba Cloud"
+    elif "tencent cloud" in body:
+        cms = "Tencent Cloud"
+    elif "baidu cloud" in body:
+        cms = "Baidu Cloud"
+    elif "yandex cloud" in body:
+        cms = "Yandex Cloud"
+    elif "mail.ru cloud" in body:
+        cms = "Mail.ru Cloud"
+    elif "vk cloud" in body:
+        cms = "VK Cloud"
+    elif "sbercloud" in body:
+        cms = "SberCloud"
+    elif "selectel" in body:
+        cms = "Selectel"
+    elif "timeweb cloud" in body:
+        cms = "Timeweb Cloud"
+    elif "beget" in body:
+        cms = "Beget"
+    elif "reg.ru" in body:
+        cms = "Reg.ru"
+    elif "nic.ru" in body:
+        cms = "NIC.ru"
+    elif "masterhost" in body:
+        cms = "Masterhost"
+    elif "infobox" in body:
+        cms = "Infobox"
+    elif "ihor" in body:
+        cms = "IHOR"
+    elif "hostinger" in body:
+        cms = "Hostinger"
+    elif "bluehost" in body:
+        cms = "Bluehost"
+    elif "siteground" in body:
+        cms = "SiteGround"
+    elif "a2 hosting" in body:
+        cms = "A2 Hosting"
+    elif "inmotion hosting" in body:
+        cms = "InMotion Hosting"
+    elif "hostgator" in body:
+        cms = "HostGator"
+    elif "godaddy" in body:
+        cms = "GoDaddy"
+    elif "namecheap" in body:
+        cms = "Namecheap"
+    elif "domain.com" in body:
+        cms = "Domain.com"
+    elif "hover" in body:
+        cms = "Hover"
+    elif "google domains" in body:
+        cms = "Google Domains"
+    elif "aws route 53" in body:
+        cms = "AWS Route 53"
+    elif "cloudflare dns" in body:
+        cms = "Cloudflare DNS"
+    elif "powerdns" in body:
+        cms = "PowerDNS"
+    elif "bind" in body:
+        cms = "BIND"
+    elif "unbound" in body:
+        cms = "Unbound"
+    elif "knot dns" in body:
+        cms = "Knot DNS"
+    elif "nsd" in body:
+        cms = "NSD"
+    elif "djbdns" in body:
+        cms = "djbdns"
+    elif "mara dns" in body:
+        cms = "MaraDNS"
+    elif "yahho" in body:
+        cms = "Yahho"
+    elif "dnsmasq" in body:
+        cms = "dnsmasq"
+    elif "coredns" in body:
+        cms = "CoreDNS"
+    elif "kubernetes" in body:
+        cms = "Kubernetes"
+    elif "docker" in body:
+        cms = "Docker"
+    elif "containerd" in body:
+        cms = "containerd"
+    elif "cri-o" in body:
+        cms = "CRI-O"
+    elif "podman" in body:
+        cms = "Podman"
+    elif "lxc" in body:
+        cms = "LXC"
+    elif "lxd" in body:
+        cms = "LXD"
+    elif "openvz" in body:
+        cms = "OpenVZ"
+    elif "kvm" in body:
+        cms = "KVM"
+    elif "xen" in body:
+        cms = "Xen"
+    elif "vmware" in body:
+        cms = "VMware"
+    elif "virtualbox" in body:
+        cms = "VirtualBox"
+    elif "hyper-v" in body:
+        cms = "Hyper-V"
+    elif "qemu" in body:
+        cms = "QEMU"
+    elif "proxmox" in body:
+        cms = "Proxmox"
+    elif "xcp-ng" in body:
+        cms = "XCP-ng"
+    elif "openstack" in body:
+        cms = "OpenStack"
+    elif "cloudstack" in body:
+        cms = "CloudStack"
+    elif "opennebula" in body:
+        cms = "OpenNebula"
+    elif "onapp" in body:
+        cms = "OnApp"
+    elif "vmware vsphere" in body:
+        cms = "VMware vSphere"
+    elif "vmware esxi" in body:
+        cms = "VMware ESXi"
+    elif "vmware vcenter" in body:
+        cms = "VMware vCenter"
+    elif "nutanix" in body:
+        cms = "Nutanix"
+    elif "hpe SimpliVity" in body:
+        cms = "HPE SimpliVity"
+    elif "dell emc vxflex" in body:
+        cms = "Dell EMC VxFlex"
+    elif "dell emc powerflex" in body:
+        cms = "Dell EMC PowerFlex"
+    elif "dell emc vxn" in body:
+        cms = "Dell EMC VXN"
+    elif "dell emc vxrail" in body:
+        cms = "Dell EMC VxRail"
+    elif "dell emc powerstore" in body:
+        cms = "Dell EMC Power"
+    elif "dell emc powerstore" in body:
+        cms = "Dell EMC PowerStore"
+    elif "dell emc unity" in body:
+        cms = "Dell EMC Unity"
+    elif "dell emc sc series" in body:
+        cms = "Dell EMC SC Series"
+    elif "dell emc ps series" in body:
+        cms = "Dell EMC PS Series"
+    elif "dell emc compellent" in body:
+        cms = "Dell EMC Compellent"
+    elif "dell emc equallogic" in body:
+        cms = "Dell EMC EqualLogic"
+    elif "dell emc isilon" in body:
+        cms = "Dell EMC Isilon"
+    elif "dell emc datadomain" in body:
+        cms = "Dell EMC DataDomain"
+    elif "dell emc avamar" in body:
+        cms = "Dell EMC Avamar"
+    elif "dell emc networker" in body:
+        cms = "Dell EMC Networker"
+    elif "dell emc sourceone" in body:
+        cms = "Dell EMC SourceOne"
+    elif "dell emc recoverpoint" in body:
+        cms = "Dell EMC RecoverPoint"
+    elif "dell emc xtremio" in body:
+        cms = "Dell EMC XtremIO"
+    elif "dell emc vmax" in body:
+        cms = "Dell EMC VMAX"
+    elif "dell emc vnx" in body:
+        cms = "Dell EMC VNX"
+    elif "dell emc clariion" in body:
+        cms = "Dell EMC Clariion"
+    elif "dell emc symmetrix" in body:
+        cms = "Dell EMC Symmetrix"
+    elif "netapp" in body:
+        cms = "NetApp"
+    elif "pure storage" in body:
+        cms = "Pure Storage"
+    elif "hpe 3par" in body:
+        cms = "HPE 3PAR"
+    elif "hpe nimble" in body:
+        cms = "HPE Nimble"
+    elif "hpe storeonce" in body:
+        cms = "HPE StoreOnce"
+    elif "hpe storeever" in body:
+        cms = "HPE StoreEver"
+    elif "hpe storefabric" in body:
+        cms = "HPE StoreFabric"
+    elif "hpe storevirtual" in body:
+        cms = "HPE StoreVirtual"
+    elif "hpe storeeasy" in body:
+        cms = "HPE StoreEasy"
+    elif "hpe storea" in body:
+        cms = "HPE StoreA"
+    elif "hpe proliant" in body:
+        cms = "HPE ProLiant"
+    elif "hpe synergy" in body:
+        cms = "HPE Synergy"
+    elif "hpe blade" in body:
+        cms = "HPE BladeSystem"
+    elif "hpe moonshot" in body:
+        cms = "HPE Moonshot"
+    elif "hpe edge" in body:
+        cms = "HPE Edge"
+    elif "hpe cloud" in body:
+        cms = "HPE Cloud"
+    elif "hpe greenlake" in body:
+        cms = "HPE GreenLake"
+    elif "hpe aruba" in body:
+        cms = "HPE Aruba"
+    elif "hpe 3com" in body:
+        cms = "HPE 3Com"
+    elif "hpe tippingpoint" in body:
+        cms = "HPE TippingPoint"
+    elif "hpe fortinet" in body:
+        cms = "HPE Fortinet"
+    elif "hpe palo alto" in body:
+        cms = "HPE Palo Alto"
+    elif "hpe checkpoint" in body:
+        cms = "HPE Check Point"
+    elif "hpe cisco" in body:
+        cms = "HPE Cisco"
+    elif "hpe juniper" in body:
+        cms = "HPE Juniper"
+    elif "hpe mcafee" in body:
+        cms = "HPE McAfee"
+    elif "hpe symantec" in body:
+        cms = "HPE Symantec"
+    elif "hpe trend micro" in body:
+        cms = "HPE Trend Micro"
+    elif "hpe kaspersky" in body:
+        cms = "HPE Kaspersky"
+    elif "hpe eset" in body:
+        cms = "HPE ESET"
+    elif "hpe sophos" in body:
+        cms = "HPE Sophos"
+    elif "hpe avast" in body:
+        cms = "HPE Avast"
+    elif "hpe avg" in body:
+        cms = "HPE AVG"
+    elif "hpe bitdefender" in body:
+        cms = "HPE Bitdefender"
+    elif "hpe f-secure" in body:
+        cms = "HPE F-Secure"
+    elif "hpe g data" in body:
+        cms = "HPE G Data"
+    elif "hpe webroot" in body:
+        cms = "HPE Webroot"
+    elif "hpe malwarebytes" in body:
+        cms = "HPE Malwarebytes"
+    elif "hpe adaware" in body:
+        cms = "HPE Adaware"
+    elif "hpe spybot" in body:
+        cms = "HPE Spybot"
+    elif "hpe superantispyware" in body:
+        cms = "HPE SuperAntiSpyware"
+    elif "hpe ccleaner" in body:
+        cms = "HPE CCleaner"
+    elif "hpe iobit" in body:
+        cms = "HPE IObit"
+    elif "hpe advanced systemcare" in body:
+        cms = "HPE Advanced SystemCare"
+    elif "hpe glary utilities" in body:
+        cms = "HPE Glary Utilities"
+    elif "hpe wise care" in body:
+        cms = "HPE Wise Care"
+    elif "hpe wise registry" in body:
+        cms = "HPE Wise Registry"
+    elif "hpe wise disk" in body:
+        cms = "HPE Wise Disk"
+    elif "hpe driver booster" in body:
+        cms = "HPE Driver Booster"
+    elif "hpe driver easy" in body:
+        cms = "HPE Driver Easy"
+    elif "hpe driverpack" in body:
+        cms = "HPE DriverPack"
+    elif "hpe snappy driver" in body:
+        cms = "HPE Snappy Driver"
+    elif "hpe driver fusion" in body:
+        cms = "HPE Driver Fusion"
+    elif "hpe driver genius" in body:
+        cms = "HPE Driver Genius"
+    elif "hpe driver identifier" in body:
+        cms = "HPE Driver Identifier"
+    elif "hpe driver finder" in body:
+        cms = "HPE Driver Finder"
+    elif "hpe driver navigator" in body:
+        cms = "HPE Driver Navigator"
+    elif "hpe driver max" in body:
+        cms = "HPE Driver Max"
+    elif "hpe driver tuner" in body:
+        cms = "HPE Driver Tuner"
+    elif "hpe driver reviver" in body:
+        cms = "HPE Driver Reviver"
+    elif "hpe driver update" in body:
+        cms = "HPE Driver Update"
+    elif "hpe driver scanner" in body:
+        cms = "HPE Driver Scanner"
+    elif "hpe driver agent" in body:
+        cms = "HPE Driver Agent"
+    elif "hpe driver cure" in body:
+        cms = "HPE Driver Cure"
+    elif "hpe driver doctor" in body:
+        cms = "HPE Driver Doctor"
+    elif "hpe driver helper" in body:
+        cms = "HPE Driver Helper"
+    elif "hpe driver guide" in body:
+        cms = "HPE Driver Guide"
+    elif "hpe driver hub" in body:
+        cms = "HPE Driver Hub"
+    elif "hpe driver lab" in body:
+        cms = "HPE Driver Lab"
+    elif "hpe driver manager" in body:
+        cms = "HPE Driver Manager"
+    elif "hpe driver pack" in body:
+        cms = "HPE Driver Pack"
+    elif "hpe driver solution" in body:
+        cms = "HPE Driver Solution"
+    elif "hpe driver toolkit" in body:
+        cms = "HPE Driver Toolkit"
+    elif "hpe driver utility" in body:
+        cms = "HPE Driver Utility"
+    elif "hpe driver wizard" in body:
+        cms = "HPE Driver Wizard"
+    elif "hpe driver xpert" in body:
+        cms = "HPE Driver XPert"
+    elif "hpe driver xpress" in body:
+        cms = "HPE Driver Xpress"
+    elif "hpe driver zone" in body:
+        cms = "HPE Driver Zone"
+    elif "hpe driverbase" in body:
+        cms = "HPE DriverBase"
+    elif "hpe drivercloud" in body:
+        cms = "HPE DriverCloud"
+    elif "hpe drivercore" in body:
+        cms = "HPE DriverCore"
+    elif "hpe driverhub" in body:
+        cms = "HPE DriverHub"
+    elif "hpe driverlab" in body:
+        cms = "HPE DriverLab"
+    elif "hpe drivermanager" in body:
+        cms = "HPE DriverManager"
+    elif "hpe driverpack" in body:
+        cms = "HPE DriverPack"
+    elif "hpe driversolution" in body:
+        cms = "HPE DriverSolution"
+    elif "hpe drivertoolkit" in body:
+        cms = "HPE DriverToolkit"
+    elif "hpe driverutility" in body:
+        cms = "HPE DriverUtility"
+    elif "hpe driverwizard" in body:
+        cms = "HPE DriverWizard"
+    elif "hpe driverxpert" in body:
+        cms = "HPE DriverXPert"
+    elif "hpe driverxpress" in body:
+        cms = "HPE DriverXpress"
+    elif "hpe driverzone" in body:
+        cms = "HPE DriverZone"
+    elif "hpe driverbase" in body:
+        cms = "HPE DriverBase"
+    elif "hpe drivercloud" in body:
+        cms = "HPE DriverCloud"
+    elif "hpe drivercore" in body:
+        cms = "HPE DriverCore"
+    elif "hpe driverhub" in body:
+        cms = "HPE DriverHub"
+    elif "hpe driverlab" in body:
+        cms = "HPE DriverLab"
+    elif "hpe drivermanager" in body:
+        cms = "HPE DriverManager"
+    elif "hpe driverpack" in body:
+        cms = "HPE DriverPack"
+    elif "hpe driversolution" in body:
+        cms = "HPE DriverSolution"
+    elif "hpe drivertoolkit" in body:
+        cms = "HPE DriverToolkit"
+    elif "hpe driverutility" in body:
+        cms = "HPE DriverUtility"
+    elif "hpe driverwizard" in body:
+        cms = "HPE DriverWizard"
+    elif "hpe driverxpert" in body:
+        cms = "HPE DriverXPert"
+    elif "hpe driverxpress" in body:
+        cms = "HPE DriverXpress"
+    elif "hpe driverzone" in body:
+        cms = "HPE DriverZone"
+    elif "hpe driverbase" in body:
+        cms = "HPE DriverBase"
+    elif "hpe drivercloud" in body:
+        cms = "HPE DriverCloud"
+    elif "hpe drivercore" in body:
+        cms = "HPE DriverCore"
+    elif "hpe driverhub" in body:
+        cms = "HPE DriverHub"
+    elif "hpe driverlab" in body:
+        cms = "HPE DriverLab"
+    elif "hpe drivermanager" in body:
+        cms = "HPE DriverManager"
+    elif "hpe driverpack" in body:
+        cms = "HPE DriverPack"
+    elif "hpe driversolution" in body:
+        cms = "HPE DriverSolution"
+    elif "hpe drivertoolkit" in body:
+        cms = "HPE DriverToolkit"
+    elif "hpe driverutility" in body:
+        cms = "HPE DriverUtility"
+    elif "hpe driverwizard" in body:
+        cms = "HPE DriverWizard"
+    elif "hpe driverxpert" in body:
+        cms = "HPE DriverXPert"
+    elif "hpe driverxpress" in body:
+        cms = "HPE DriverXpress"
+    elif "hpe driverzone" in body:
+        cms = "HPE DriverZone"
+    elif "hpe driverbase" in body:
+        cms = "HPE DriverBase"
+    elif "hpe drivercloud" in body:
+        cms = "HPE DriverCloud"
+    elif "hpe drivercore" in body:
+        cms = "HPE DriverCore"
+    elif "hpe driverhub" in body:
+        cms = "HPE DriverHub"
+    elif "hpe driverlab" in body:
+        cms = "HPE DriverLab"
+    elif "hpe drivermanager" in body:
+        cms = "HPE DriverManager"
+    elif "hpe driverpack" in body:
+        cms = "HPE DriverPack"
+    elif "hpe driversolution" in body:
+        cms = "HPE DriverSolution"
+    elif "hpe drivertoolkit" in body:
+        cms = "HPE DriverToolkit"
+    elif "hpe driverutility" in body:
+        cms = "HPE DriverUtility"
+    elif "hpe driverwizard" in body:
+        cms = "HPE DriverWizard"
+    elif "hpe driverxpert" in body:
+        cms = "HPE DriverXPert"
+    elif "hpe driverxpress" in body:
+        cms = "HPE DriverXpress"
+    elif "hpe driverzone" in body:
+        cms = "HPE DriverZone"
+    elif "hpe driverbase" in body:
+        cms = "HPE DriverBase"
+    elif "hpe drivercloud" in body:
+        cms = "HPE DriverCloud"
+    elif "hpe drivercore" in body:
+        cms = "HPE DriverCore"
+    elif "hpe driverhub" in body:
+        cms = "HPE DriverHub"
+    elif "hpe driverlab" in body:
+        cms = "HPE DriverLab"
+    elif "hpe drivermanager" in body:
+        cms = "HPE DriverManager"
+    elif "hpe driverpack" in body:
+        cms = "HPE DriverPack"
+    elif "hpe driversolution" in body:
+        cms = "HPE DriverSolution"
+    elif "hpe drivertoolkit" in body:
+        cms = "HPE DriverToolkit"
+    elif "hpe driverutility" in body:
+        cms = "HPE DriverUtility"
+    elif "hpe driverwizard" in body:
+        cms = "HPE DriverWizard"
+    elif "hpe driverxpert" in body:
+        cms = "HPE DriverXPert"
+    elif "hpe driverxpress" in body:
+        cms = "HPE DriverXpress"
+    elif "hpe driverzone" in body:
+        cms = "HPE DriverZone"
+    elif "hpe driverbase" in body:
+        cms = "HPE DriverBase"
+    elif "hpe drivercloud" in body:
+        cms = "HPE DriverCloud"
+    elif "hpe drivercore" in body:
+        cms = "HPE DriverCore"
+    elif "hpe driverhub" in body:
+        cms = "HPE DriverHub"
+    elif "hpe driverlab" in body:
+        cms = "HPE DriverLab"
+    elif "hpe drivermanager" in body:
+        cms = "HPE DriverManager"
+    elif "hpe driverpack" in body:
+        cms = "HPE DriverPack"
+    elif "hpe driversolution" in body:
+        cms = "HPE DriverSolution"
+    elif "hpe drivertoolkit" in body:
+        cms = "HPE DriverToolkit"
+    elif "hpe driverutility" in body:
+        cms = "HPE DriverUtility"
+    elif "hpe driverwizard" in body:
+        cms = "HPE DriverWizard"
+    elif "hpe driverxpert" in body:
+        cms = "HPE DriverXPert"
+    elif "hpe driverxpress" in body:
+        cms = "HPE DriverXpress"
+    elif "hpe driverzone" in body:
+        cms = "HPE DriverZone"
+    elif "hpe driverbase" in body:
+        cms = "HPE DriverBase"
+    elif "hpe drivercloud" in body:
+        cms = "HPE DriverCloud"
+    elif "hpe drivercore" in body:
+        cms = "HPE DriverCore"
+    elif "hpe driverhub" in body:
+        cms = "HPE DriverHub"
+    elif "hpe driverlab" in body:
+        cms = "HPE DriverLab"
+    elif "hpe drivermanager" in body:
+        cms = "HPE DriverManager"
+    elif "hpe driverpack" in body:
+        cms = "HPE DriverPack"
+    elif "hpe driversolution" in body:
+        cms = "HPE DriverSolution"
+    elif "hpe drivertoolkit" in body:
+        cms = "HPE DriverToolkit"
+    elif "hpe driverutility" in body:
+        cms = "HPE DriverUtility"
+    elif "hpe driverwizard" in body:
+        cms = "HPE DriverWizard"
+    elif "hpe driverxpert" in body:
+        cms = "HPE DriverXPert"
+    elif "hpe driverxpress" in body:
+        cms = "HPE DriverXpress"
+    elif "hpe driverzone" in body:
+        cms = "HPE DriverZone"
+    elif "hpe driverbase" in body:
+        cms = "HPE DriverBase"
+    elif "hpe drivercloud" in body:
+        cms = "HPE DriverCloud"
+    elif "hpe drivercore" in body:
+        cms = "HPE DriverCore"
+    elif "hpe driverhub" in body:
+        cms = "HPE DriverHub" 
+
+    print(colored_gradient(f"\n[MSecurity] CMS detected: {cms}", 0, 8, 0))
+
+
+    if parsed.scheme == "https":
+        try:
+            ctx = ssl.create_default_context()
+            with ctx.wrap_socket(socket.socket(), server_hostname=parsed.netloc) as s:
+                s.settimeout(5)
+                s.connect((parsed.netloc, 443))
+                cert = s.getpeercert()
+                print(colored_gradient("\nSSL Certificate Information:", 0, 10, 0))
+                for i, (key, val) in enumerate(cert.items(), start=1):
+                    if isinstance(val, tuple):
+                        print(colored_gradient(f"- {key}: {', '.join(val)}", i, 10, 0))
+                    else:
+                        print(colored_gradient(f"- {key}: {val}", i, 10, 0))
+
+                if cert.get('notAfter'):
+                    exp_date = datetime.strptime(cert['notAfter'], '%b %d %H:%M:%S %Y %Z')
+                    days_left = (exp_date - datetime.now()).days
+                    print(colored_gradient(f"- Days until expiration: {days_left}", i+1, 10, 0))
+        except Exception as e:
+            print(colored_gradient(f"\nSSL Certificate Error: {e}", 0, 1, 0))
+
+def Website_Info_Scanner():
+    target = input(colored_gradient("\nEnter the URL to scan (e.g., https://example.com): ", 0, 1, 0)).strip()
+    if not target:
+        print(colored_gradient("URL not provided.", 0, 1, 0))
+        return
+
+    if not target.startswith("http://") and not target.startswith("https://"):
+        target = "http://" + target
+
+    print(colored_gradient(f"\n[MSecurity] Scanning {target} for information...", 0, 1, 0))
+
+    try:
+        resp = requests.get(target, timeout=10, allow_redirects=True)
+    except requests.RequestException as e:
+        print(colored_gradient(f"Error requesting URL: {e}", 0, 1, 0))
+        return
+
+
+    print(colored_gradient(f"Status Code: {resp.status_code}", 0, 6, 0))
+    print(colored_gradient(f"Final URL: {resp.url}", 1, 6, 0))
+
+
+    headers = resp.headers
+    server = headers.get("Server", "<no server header>")
+    xpowered = headers.get("X-Powered-By", "<none>")
+    print(colored_gradient(f"Server: {server}", 2, 8, 0))
+    print(colored_gradient(f"X-Powered-By: {xpowered}", 3, 8, 0))
+
+    
+    body = resp.text.lower()
+    techs = []
+    if "wordpress" in body:
+        techs.append("WordPress")
+    if "jquery" in body:
+        techs.append("jQuery")
+    if "bootstrap" in body:
+        techs.append("Bootstrap")
+    if "react" in body:
+        techs.append("React")
+    if "angular" in body:
+        techs.append("Angular")
+    if "vue" in body:
+        techs.append("Vue.js")
+    if "drupal" in body:
+        techs.append("Drupal")
+    if "joomla" in body:
+        techs.append("Joomla")
+    if "magento" in body:
+        techs.append("Magento")
+    if "shopify" in body:
+        techs.append("Shopify")
+    
+    if techs:
+        print(colored_gradient("\nTechnologies detected:", 0, 10, 0))
+        for i, tech in enumerate(techs, start=1):
+            print(colored_gradient(f"- {tech}", i, 10, 0))
+    else:
+        print(colored_gradient("\nNo specific technologies detected.", 0, 10, 0))
+
+
+    analytics = []
+    if "google-analytics" in body or "ga.js" in body or "gtag" in body:
+        analytics.append("Google Analytics")
+    if "facebook.com/tr" in body or "fbq" in body:
+        analytics.append("Facebook Pixel")
+    if "hotjar" in body:
+        analytics.append("Hotjar")
+    if "mixpanel" in body:
+        analytics.append("Mixpanel")
+    if "segment" in body:
+        analytics.append("Segment")
+    
+    if analytics:
+        print(colored_gradient("\nAnalytics/Tracking detected:", 0, 10, 0))
+        for i, analytic in enumerate(analytics, start=1):
+            print(colored_gradient(f"- {analytic}", i, 10, 0))
+    else:
+        print(colored_gradient("\nNo analytics detected.", 0, 10, 0))
+
+def Website_URL_Scanner():
+    target = input(colored_gradient("\nEnter the URL to scan (e.g., https://example.com): ", 0, 1, 0)).strip()
+    if not target:
+        print(colored_gradient("URL not provided.", 0, 1, 0))
+        return
+
+    if not target.startswith("http://") and not target.startswith("https://"):
+        target = "http://" + target
+
+    print(colored_gradient(f"\n[MSecurity] Scanning {target}...", 0, 1, 0))
+
+    try:
+        resp = requests.get(target, timeout=10, allow_redirects=True)
+    except requests.RequestException as e:
+        print(colored_gradient(f"Error requesting URL: {e}", 0, 1, 0))
+        return
+
+
+    parsed = urllib.parse.urlparse(resp.url)
+    print(colored_gradient("\nURL Information:", 0, 10, 0))
+    print(colored_gradient(f"- Scheme: {parsed.scheme}", 1, 10, 0))
+    print(colored_gradient(f"- Netloc: {parsed.netloc}", 2, 10, 0))
+    print(colored_gradient(f"- Path: {parsed.path}", 3, 10, 0))
+    print(colored_gradient(f"- Params: {parsed.params}", 4, 10, 0))
+    print(colored_gradient(f"- Query: {parsed.query}", 5, 10, 0))
+    print(colored_gradient(f"- Fragment: {parsed.fragment}", 6, 10, 0))
+
+
+    print(colored_gradient(f"\nStatus Code: {resp.status_code}", 0, 6, 0))
+
+
+    print(colored_gradient("\nResponse Headers:", 0, 10, 0))
+    for i, (key, value) in enumerate(resp.headers.items(), start=1):
+        print(colored_gradient(f"- {key}: {value}", i, 10, 0))
+
+
+    if resp.url != target:
+        print(colored_gradient(f"\nRedirected to: {resp.url}", 0, 8, 0))
+
+def ip_generator():
+    try:
+        count = int(input(colored_gradient("\nHow many IPs to generate? ", 0, 1, 0)))
+    except ValueError:
+        print(colored_gradient("Invalid number.", 0, 1, 0))
+        return
+
+    print(colored_gradient("\nGenerated IPs:", 0, 10, 0))
+    for i in range(count):
+        ip = f"{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(1,254)}"
+        print(colored_gradient(f"- {ip}", i+1, 10, 0))
+
+
+
+
+def colored_gradient(text, line_num, total_lines, offset=0):
+    ratio = ((line_num + offset) % (total_lines * 2)) / (total_lines * 2)
+    r = int(85 + 0 * ratio)
+    g = int(85 + (127 * ratio))
+    b = int(85)
+    return f"\033[38;2;{r};{g};{b}m{text}\033[0m"
+
+def discord_token_info():
+    token = input("\nEnter Bot Token (must start with 'Bot '): ").strip()
+
+    if not token:
+        print("Error: No token provided.")
+        return
+    
+    if not token.startswith("Bot "):
+        print("Error: Bot tokens must start with 'Bot '. Example:")
+        print("Like this >> Bot [Token]")
+        return
+
+    headers = {
+        "Authorization": token,
+        "User-Agent": "Mozilla/5.0"
+    }
+
+    api_url = "https://discord.com/api/v10/users/@me"
+
+    try:
+        response = requests.get(api_url, headers=headers, timeout=10)
+
+        if response.status_code == 200:
+            data = response.json()
+
+            
+            bot_id = data.get("id")
+            timestamp = ((int(bot_id) >> 22) + 1420070400000) / 1000
+            creation_date = datetime.fromtimestamp(timestamp, tz=timezone.utc)
+
+
+        
+            avatar_hash = data.get("avatar")
+            avatar_url = (
+                f"https://cdn.discordapp.com/avatars/{bot_id}/{avatar_hash}.png"
+                if avatar_hash else "No avatar"
+            )
+
+           
+            lines = [
+                "--- Bot Token Information ---",
+                f"🔢ID: {bot_id}",
+                f"🏷️Bot Name: {data.get('username')}",
+                f"🤔Created: {creation_date} UTC",
+                f"👤Avatar Hash: {avatar_hash}",
+                f"🤖Avatar URL: {avatar_url}",
+                f"❓Mention: <@{bot_id}>",
+                f"🌐Locale: {data.get('locale')}",
+                f"✅Verified: {data.get('verified')}",
+                f"🏳️Flags: {data.get('flags')}",
+                "Account Type: 🤖Bot",
+                "==========================="
+            ]
+
+            # Imprimir cada línea con gradiente
+            total_lines = len(lines)
+            for i, line in enumerate(lines):
+                print(colored_gradient(line, i, total_lines))
+
+        elif response.status_code == 401:
+            print("Error: Invalid bot token.")
+        else:
+            print(f"Error: API responded with status {response.status_code}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+
+def discord_server_info():
+    invite = input(colored_gradient("\nEnter Discord invite code or full URL: ", 0, 1, 0)).strip()
+    if not invite:
+        print(colored_gradient("Invite not provided.", 10, 0, 0))
+        return
+
+    # Extract invite code if full URL provided
+    if "discord.gg" in invite or "discord.com/invite" in invite:
+        invite = invite.split("/")[-1]
+
+    try:
+        r = requests.get(f"https://discord.com/api/v10/invites/{invite}?with_counts=true", timeout=10)
+        if r.status_code == 200:
+            data = r.json()
+            guild = data.get('guild', {})
+            print(colored_gradient("\n--- Server Information ---", 0, 10, 0))
+            print(colored_gradient(f"- 🏷️Server Name: {guild.get('name')}", 1, 10, 0))
+            print(colored_gradient(f"- 🔢Server ID: {guild.get('id')}", 2, 10, 0))
+            print(colored_gradient(f"- 👥Members: {data.get('approximate_member_count')}", 3, 10, 0))
+            print(colored_gradient(f"- 👊Online: {data.get('approximate_presence_count')}", 4, 10, 0))
+            print(colored_gradient(f"- 🩷Boost Level: {guild.get('premium_tier')}", 5, 10, 0))
+            print(colored_gradient(f"- 🤔Features: {', '.join(guild.get('features', []))}", 6, 10, 0))
+            print(colored_gradient("--------------------------", 0, 10, 0))
+        else:
+            print(colored_gradient(f"Error: Invalid invite. Status: {r.status_code}", 10, 0, 0))
+    except Exception as e:
+        print(colored_gradient(f"Error: {e}", 10, 0, 0))
+
+
+def discord_user_info():
+    user_id = input("Please enter the user ID: > ").strip()
+
+    try:
+        int(user_id) 
+    except ValueError:
+        print("ID inválido.")
+        return
+
+    
+    timestamp = ((int(user_id) >> 22) + 1420070400000) / 1000
+    creation_date = datetime.utcfromtimestamp(timestamp)
+
+    
+    avatar_url = f"https://cdn.discordapp.com/avatars/{user_id}/default.png"
+
+    print("\n--- Discord User  Information ---")
+    print(f"ID: {user_id}")
+    print(f"Created: {creation_date} UTC")
+    print(f"Avatar URL: {avatar_url}")
+    print("===============================")
+
+def discord_webhook_spam():
+    webhook = input(colored_gradient("\nEnter Discord webhook URL: ", 0, 1, 0)).strip()
+    if not webhook:
+        print(colored_gradient("Webhook URL not provided.", 0, 1, 0))
+        return
+
+    try:
+        count = int(input(colored_gradient("Number of messages to send: ", 1, 8, 0)))
+    except ValueError:
+        print(colored_gradient("Invalid number.", 0, 1, 0))
+        return
+
+    message = input(colored_gradient("Message to send: ", 2, 8, 0)).strip()
+    if not message:
+        message = "MSecurity Tool - Webhook Test"
+
+    print(colored_gradient(f"\nSending {count} messages...", 0, 1, 0))
+    
+    success = 0
+    for i in range(count):
+        try:
+            payload = {"content": message}
+            r = requests.post(webhook, json=payload, timeout=5)
+            if r.status_code == 204:
+                success += 1
+                print(colored_gradient(f"Message {i+1}/{count} sent successfully", 3, 8, 0))
+            else:
+                print(colored_gradient(f"Message {i+1} failed. Status: {r.status_code}", 3, 8, 0))
+            time.sleep(0.5) 
+        except Exception as e:
+            print(colored_gradient(f"Message {i+1} error: {e}", 3, 8, 0))
+    
+    print(colored_gradient(f"\nSuccessfully sent {success}/{count} messages", 0, 10, 0))
+
+def webhook_deleter():
+    webhook = input(colored_gradient("\nEnter Discord webhook URL to delete: ", 0, 1, 0)).strip()
+    if not webhook:
+        print(colored_gradient("Webhook URL not provided.", 0, 1, 0))
+        return
+
+    confirm = input(colored_gradient("Are you sure you want to delete this webhook? (y/n): ", 1, 8, 0)).lower()
+    if confirm != 'y':
+        print(colored_gradient("Operation cancelled.", 0, 1, 0))
+        return
+
+    try:
+        r = requests.delete(webhook, timeout=10)
+        if r.status_code == 204:
+            print(colored_gradient("Webhook deleted successfully.", 0, 10, 0))  
+        else:
+            print(colored_gradient(f"Failed to delete webhook. Status: {r.status_code}", 0, 1, 0))
+    except Exception as e:
+        print(colored_gradient(f"Error: {e}", 0, 1, 0))
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print(colored_gradient("\n\nExiting MSecurity Tool...", 0, 1, 0))
+        sys.exit(0)
+    except Exception as e:
+        print(colored_gradient(f"\nUnexpected error: {e}", 0, 1, 0))
+        sys.exit(1)
